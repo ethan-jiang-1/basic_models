@@ -10,6 +10,13 @@ from ctypes import c_double
 from h5py import File
 
 
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
+
 def metrics(a, b): 
     return norm(a - b)
 
@@ -100,7 +107,7 @@ class Rbf:
                     # phi[i, j] = gaussian(x[i,:], mu[j], sigmas[j]))
                 if k % 1000 == 0:
                     percent = true_divide(k, s)*100
-                    print(c, ': {:2.2f}%'.format(percent)
+                    print(c, ': {:2.2f}%'.format(percent))
             print(c, ': Done')
         
         # distributing the work between 4 workers
@@ -149,7 +156,7 @@ class Rbf:
         ## Mu generation
         mu = self.mu = self._generate_mu(x)
         self.neurons = mu.shape[0]
-        print('({} neurons)'.format(self.neurons)
+        print('({} neurons)'.format(self.neurons))
         # Save to HDF5
         mu_h5 = mu_handle.create_dataset('mu', data = mu)
 
@@ -163,7 +170,7 @@ class Rbf:
         ## Phi calculation
         print('Calculating Phi...')
         phi = self.phi = self._calculate_phi(x)
-        print('Done'
+        print('Done')
         # Saving to HDF5
         print('Serializing...')
         phi_h5 = phi_handle.create_dataset('phi', data = phi)
