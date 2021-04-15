@@ -8,7 +8,7 @@ from time import time
 from sys import stdout
 from ctypes import c_double
 from h5py import File
-
+import math
 
 try:
     # Python 2
@@ -98,7 +98,7 @@ class Rbf:
 
         def heavy_lifting(c, phi):
             s = jobs[c][1] - jobs[c][0]
-            for k, i in enumerate(xrange(int(jobs[c][0]), int(jobs[c][1]))):
+            for k, i in enumerate(xrange(math.ceil(jobs[c][0]), math.ceil(jobs[c][1]))):
                 for j in xrange(neurons):
                     # phi[i, j] = metrics(x[i,:], mu[j])**3)
                     # phi[i, j] = plateSpine(x[i,:], mu[j]))
