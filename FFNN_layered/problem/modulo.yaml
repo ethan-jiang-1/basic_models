@@ -1,0 +1,15 @@
+dataset: Modulo
+cost: CrossEntropy
+layers:
+- activation: Identity
+  size: 32
+- activation: Max
+  size: 64
+- activation: Max
+  size: 64
+- activation: Softmax
+  size: 7
+epochs: 5
+learning_rate: 0.01
+weight_scale: 0.1
+evaluate_every: 5000
