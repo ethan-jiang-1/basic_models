@@ -100,8 +100,8 @@ class Rbf:
                     # phi[i, j] = gaussian(x[i,:], mu[j], sigmas[j]))
                 if k % 1000 == 0:
                     percent = true_divide(k, s)*100
-                    print c, ': {:2.2f}%'.format(percent)
-            print c, ': Done'
+                    print(c, ': {:2.2f}%'.format(percent)
+            print(c, ': Done')
         
         # distributing the work between 4 workers
         shared_array = Array(c_double, n * neurons)
@@ -149,30 +149,30 @@ class Rbf:
         ## Mu generation
         mu = self.mu = self._generate_mu(x)
         self.neurons = mu.shape[0]
-        print '({} neurons)'.format(self.neurons)
+        print('({} neurons)'.format(self.neurons)
         # Save to HDF5
         mu_h5 = mu_handle.create_dataset('mu', data = mu)
 
         ## Sigma calculation
-        print 'Calculating Sigma...'
+        print('Calculating Sigma...')
         sigmas = self.sigmas = self._calculate_sigmas()
         # Save to HDF5
         sigmas_h5 = sigma_handle.create_dataset('sigmas', data = sigmas)
-        print 'Done'
+        print('Done')
 
         ## Phi calculation
-        print 'Calculating Phi...'
+        print('Calculating Phi...')
         phi = self.phi = self._calculate_phi(x)
-        print 'Done'
+        print('Done'
         # Saving to HDF5
-        print 'Serializing...'
+        print('Serializing...')
         phi_h5 = phi_handle.create_dataset('phi', data = phi)
         del phi
         self.phi = phi_h5
-        print 'Done'
+        print('Done')
 
         ## Algebra
-        print 'Doing final algebra...'
+        print('Doing final algebra...')
         w, os = self.w, _ = self._do_algebra(y)
         # Saving to HDF5
         w_h5 = w_handle.create_dataset('w', data = w)
@@ -180,14 +180,14 @@ class Rbf:
 
         ## Calculate error
         self._calculate_error(y)
-        print 'Done'
+        print('Done')
 
     def predict(self, test_data):
         mu = self.mu = self.mu.value
         sigmas = self.sigmas = self.sigmas.value
         w = self.w = self.w.value
 
-        print 'Calculating phi for test data...'
+        print('Calculating phi for test data...')
         phi = self._calculate_phi(test_data)
         os = dot(w, transpose(phi))
         savetxt('iok3834.txt', os, delimiter='\n')
